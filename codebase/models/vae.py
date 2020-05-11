@@ -55,7 +55,7 @@ class VAE(nn.Module):
         # print(kl.size(), rec.size())
         # print(x.size()[0], type(x.size()[0]))
         kl = torch.sum(kl) / batzh_size
-        rec = torch.sum(rec) / batzh_sizepy
+        rec = torch.sum(rec) / batzh_size
         nelbo = kl - rec
 
         # =========================================================================================================================
