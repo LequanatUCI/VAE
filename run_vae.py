@@ -5,8 +5,10 @@ import tqdm
 from codebase import utils as ut
 from codebase.models.vae import VAE
 from codebase.train import train
+from codebase.generate_images import generateImages
 from pprint import pprint
 from torchvision import datasets, transforms
+from torch.nn import functional as F
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('--z',         type=int, default=10,     help="Number of latent dimensions")
@@ -23,9 +25,6 @@ layout = [
 model_name = '_'.join([t.format(v) for (t, v) in layout])
 pprint(vars(args))
 print('Model name:', model_name)
-
-# device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-# print(torch.cuda.is_available())
 
 device = torch.device("cuda")
 if torch.cuda.is_available():
@@ -51,5 +50,10 @@ if args.train:
     ut.evaluate_lower_bound(vae, labeled_subset, run_iwae=args.train == 2)
 
 else:
+    print("no training")
     ut.load_model_by_name(vae, global_step=args.iter_max)
-    ut.evaluate_lower_bound(vae, labeled_subset, run_iwae=True)
+    ut.evaluate_lower_bound(vae, labeled_subset, run_iwae=False)
+    generateImages(vae)
+
+
+
