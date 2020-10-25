@@ -3,6 +3,9 @@ from mpl_toolkits.axes_grid1 import ImageGrid
 import torch
 import numpy as np
 
+
+# generating images here
+
 def generateImages(model):
     imglist = []
     for i in range(200):
